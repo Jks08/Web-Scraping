@@ -6,14 +6,12 @@ import random
 import time
 
 symptoms = list(pd.read_csv('symptoms.csv')['Symptom'])
-
 flow = []
 
 options = webdriver.ChromeOptions()
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 driver.maximize_window()
-
 driver.get('https://symptomate.com/diagnosis/#0-66')
 time.sleep(10)
 
@@ -23,7 +21,7 @@ try:
 except:
     pass
 
-# A function to Click the Next button wherever applicable
+# function to Click the Next button wherever applicable
 def click_next():
     next_button = driver.find_element_by_class_name('btn-next')
     driver.execute_script("arguments[0].click();", next_button)
@@ -62,11 +60,10 @@ time.sleep(3)
 questions = driver.find_elements_by_class_name('buttons')
 for question in questions[:-1]:
     question.click()
-
 click_next()
 time.sleep(1)
 
-# Take Random 3 Symptoms From the CSV
+# Take Random 3 Symptoms From the CSV(can be increased also)
 count = 0
 symptoms_list = []
 while count < 3:
@@ -101,39 +98,30 @@ click_next()
 time.sleep(10)
 
 # QnA starts Here
-print("---------------------------------------------------\n")
+print("---------------------------------------------\n")
 
 while True:
     question = driver.find_element_by_class_name('question-text').text
     choices = driver.find_element_by_class_name('answers-box').text
     choices = choices.split("\n")
-
     choices = ",".join(choices[:-1])
-
     print(question)
     print(choices)
-
     flow.append(question)
     flow.append(choices)
-
     print("\nWaitng For Input")
-
     # Manually Select the Option / and Go the next Question and then Press enter when Done
     # Input -1 When The Result Page Appears
     x = input("Press Enter For Next Question, Press -1 to break ")
     time.sleep(2)
-
     print("Next Question, \n")
-
     if x == '-1':
         break
-
-print("--------------------------------------------------------\n")
+print("---------------------------------------------\n")
 
 # Get the Conditions From the Result Page
 try:
     conditions = driver.find_elements_by_class_name('condition-item')
-
     for condition in conditions:
         flow.append(condition.text.split("\n")[0])
         flow.append(condition.text.split("\n")[1])
@@ -147,5 +135,4 @@ driver.quit()
 # Convert to CSV
 dic = {"Flow" : flow }
 df = pd.DataFrame(dic)
-
 df.to_csv("test.csv")
