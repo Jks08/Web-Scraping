@@ -9,7 +9,6 @@ options = webdriver.ChromeOptions()
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 driver.maximize_window()
-
 start = time.time()
 
 symptoms = list(pd.read_csv('symptoms.csv')['Symptom'])
@@ -39,11 +38,8 @@ def checkbox():
     flow.append(answer)
 
     time.sleep(1)
-
     click_next()
-
     time.sleep(2)
-
 
 def radio():
     question = driver.find_element_by_class_name('question-text').text
@@ -62,11 +58,8 @@ def radio():
     flow.append(answer)
 
     time.sleep(1)
-
     click_next()
-
     time.sleep(2)
-
 
 def multiple():
     subs = option_block.find_elements_by_class_name('question-item')
@@ -88,11 +81,8 @@ def multiple():
         flow.append(answer)
 
     time.sleep(1)
-
     click_next()
-
     time.sleep(2)
-
 
 def buttons():
     question = driver.find_element_by_class_name('question-text').text
@@ -109,9 +99,7 @@ def buttons():
     flow.append(question)
     flow.append(options)
     flow.append(answer)
-
     time.sleep(2)
-
 
 def scale():
     question = driver.find_element_by_class_name('question-text').text
@@ -133,11 +121,8 @@ def scale():
         pass
 
     time.sleep(1)
-
     click_next()
-
     time.sleep(2)
-
 
 for _ in range(2):
     driver.get('https://symptomate.com/diagnosis')
@@ -218,9 +203,7 @@ for _ in range(2):
     map = driver.find_element_by_css_selector('path.IN')
     map.click()
     time.sleep(1)
-
     click_next()
-
     time.sleep(5)
 
     # QnA starts Here
@@ -278,5 +261,3 @@ dic = {"Flow" : flow }
 df = pd.DataFrame(dic)
 
 df.to_csv("test.csv")
-
-
