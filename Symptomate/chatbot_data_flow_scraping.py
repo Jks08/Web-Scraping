@@ -248,16 +248,11 @@ for _ in range(2):
                                 break
 
     flow.append("*---*")
-
 driver.quit()
-
 end = time.time()
-
 print("\nTime Taken = ", end - start)
-
 
 # Convert to CSV
 dic = {"Flow" : flow }
 df = pd.DataFrame(dic)
-
 df.to_csv("test.csv")
