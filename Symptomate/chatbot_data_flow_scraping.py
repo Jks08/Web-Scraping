@@ -15,28 +15,23 @@ symptoms = list(pd.read_csv('symptoms.csv')['Symptom'])
 
 flow = []
 
-
 # A function to Click the Next button wherever applicable
 def click_next():
     next_button = driver.find_element_by_class_name('btn-next')
     driver.execute_script("arguments[0].click();", next_button)
 
-
 def checkbox():
     question = driver.find_element_by_class_name('question-text').text
     print(question)
     flow.append(question)
-
     Os = option_block.find_elements_by_class_name('checkbox-label')
     options = ", ".join([O.text for O in Os])
     print(options)
     flow.append(options)
-
     option_block.find_elements_by_class_name('checkbox-label')[0].click()
     answer = option_block.find_elements_by_class_name('checkbox-label')[0].text
     print(answer, "\n")
     flow.append(answer)
-
     time.sleep(1)
     click_next()
     time.sleep(2)
